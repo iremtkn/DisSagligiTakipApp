@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "DisSagligiTakipApp.Core/1.0.0": {
+        "runtime": {
+          "DisSagligiTakipApp.Core.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "DisSagligiTakipApp.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

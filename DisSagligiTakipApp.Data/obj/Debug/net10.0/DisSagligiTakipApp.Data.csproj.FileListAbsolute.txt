@@ -1,0 +1,17 @@
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Data\obj\Debug\net10.0\DisSagligiTakipApp.Data.csproj.AssemblyReference.cache
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Data\obj\Debug\net10.0\DisSagligiTakipApp.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Data\obj\Debug\net10.0\DisSagligiTakipApp.Data.AssemblyInfoInputs.cache
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Data\obj\Debug\net10.0\DisSagligiTakipApp.Data.AssemblyInfo.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Data\obj\Debug\net10.0\DisSagligiTakipApp.Data.csproj.CoreCompileInputs.cache
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Data\bin\Debug\net10.0\DisSagligiTakipApp.Data.deps.json
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Data\bin\Debug\net10.0\DisSagligiTakipApp.Data.runtimeconfig.json
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Data\bin\Debug\net10.0\DisSagligiTakipApp.Data.dll
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Data\bin\Debug\net10.0\DisSagligiTakipApp.Data.pdb
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Data\bin\Debug\net10.0\DisSagligiTakipApp.Core.dll
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Data\bin\Debug\net10.0\DisSagligiTakipApp.Core.pdb
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Data\obj\Debug\net10.0\DisSagli.D962B73C.Up2Date
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Data\obj\Debug\net10.0\DisSagligiTakipApp.Data.dll
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Data\obj\Debug\net10.0\refint\DisSagligiTakipApp.Data.dll
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Data\obj\Debug\net10.0\DisSagligiTakipApp.Data.pdb
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Data\obj\Debug\net10.0\DisSagligiTakipApp.Data.genruntimeconfig.cache
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Data\obj\Debug\net10.0\ref\DisSagligiTakipApp.Data.dll
