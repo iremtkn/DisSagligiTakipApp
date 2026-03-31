@@ -142,7 +142,6 @@ function DentalHealth() {
         }
     };
 
-    // YENİ: Not Silme Fonksiyonu
     const handleNoteDelete = async (noteId) => {
         if (!window.confirm("Bu notu silmek istediğinize emin misiniz?")) return;
         try {
