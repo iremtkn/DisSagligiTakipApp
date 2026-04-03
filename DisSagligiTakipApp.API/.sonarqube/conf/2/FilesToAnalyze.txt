@@ -1,0 +1,5 @@
+﻿C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Service\Abstract\IDailyRecordService.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Service\Abstract\IUserService.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Service\Class1.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Service\Concrete\DailyRecordService.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Service\Concrete\UserService.cs

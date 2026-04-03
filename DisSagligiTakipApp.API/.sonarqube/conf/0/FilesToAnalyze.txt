@@ -1,0 +1,7 @@
+﻿C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Core\Class1.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Core\Entities\Activity.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Core\Entities\DailyRecord.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Core\Entities\Goal.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Core\Entities\Note.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Core\Entities\Suggestion.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Core\Entities\User.cs

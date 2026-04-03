@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisSagligiTakipApp.API", "DisSagligiTakipApp.API.csproj", "{79D0396F-5524-0D4A-86A2-40C27B568AFE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{79D0396F-5524-0D4A-86A2-40C27B568AFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79D0396F-5524-0D4A-86A2-40C27B568AFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79D0396F-5524-0D4A-86A2-40C27B568AFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79D0396F-5524-0D4A-86A2-40C27B568AFE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {676A93D7-87A3-42DF-B2E4-6C5A918EA9B8}
+	EndGlobalSection
+EndGlobal

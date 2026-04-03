@@ -19,7 +19,7 @@ public class SuggestionController : ControllerBase
     public IActionResult GetRandom()
     {
         var suggestions = _context.Suggestions.ToList();
-        if (!suggestions.Any())
+        if (suggestions.Count == 0)
             return Ok(new { text = "Dişlerinizi günde en az 2 kez fırçalamayı unutmayın!" });
 
         var random = suggestions[_random.Next(suggestions.Count)];

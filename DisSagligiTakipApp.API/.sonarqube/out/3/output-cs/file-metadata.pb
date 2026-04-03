@@ -1,0 +1,17 @@
+p
+gC:\Users\Ä°rem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\Controllers\ActivityController.csutf-8l
+cC:\Users\Ä°rem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\Controllers\AuthController.csutf-8s
+jC:\Users\Ä°rem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\Controllers\DailyRecordController.csutf-8l
+cC:\Users\Ä°rem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\Controllers\GoalController.csutf-8l
+cC:\Users\Ä°rem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\Controllers\NoteController.csutf-8o
+fC:\Users\Ä°rem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\Controllers\ProfileController.csutf-8r
+iC:\Users\Ä°rem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\Controllers\SuggestionController.csutf-8Y
+PC:\Users\Ä°rem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\Program.csutf-8Œ
+€C:\Users\Ä°rem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\obj\Debug\net10.0\DisSagligiTakipApp.API.GlobalUsings.g.csutf-8“
+‡C:\Users\Ä°rem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\obj\Debug\net10.0\.NETCoreApp,Version=v10.0.AssemblyAttributes.csutf-8w
+lC:\Users\Ä°rem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\obj\Debug\net10.0\Sentry.Attributes.csutf-8‰
+~C:\Users\Ä°rem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\obj\Debug\net10.0\DisSagligiTakipApp.API.AssemblyInfo.csutf-8
+‘C:\Users\Ä°rem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\obj\Debug\net10.0\DisSagligiTakipApp.API.MvcApplicationPartsAssemblyInfo.csutf-8ù
+íC:\Users\Ä°rem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\obj\Debug\net10.0\Microsoft.AspNetCore.OpenApi.SourceGenerators\Microsoft.AspNetCore.OpenApi.SourceGenerators.XmlCommentGenerator\OpenApiXmlCommentSupport.generated.csutf-8å
+ÙC:\Users\Ä°rem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\obj\Debug\net10.0\Sentry.Compiler.Extensions\Sentry.Compiler.Extensions.BuildPropertySourceGenerator\Sentry.Generated.BuildPropertyInitializer.g.csutf-8õ
+éC:\Users\Ä°rem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\obj\Debug\net10.0\Microsoft.AspNetCore.App.SourceGenerators\Microsoft.AspNetCore.SourceGenerators.PublicProgramSourceGenerator\PublicTopLevelProgram.Generated.g.csutf-8

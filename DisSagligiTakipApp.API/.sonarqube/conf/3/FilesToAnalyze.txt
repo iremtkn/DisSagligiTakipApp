@@ -1,0 +1,17 @@
+﻿C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\Controllers\ActivityController.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\Controllers\AuthController.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\Controllers\DailyRecordController.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\Controllers\GoalController.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\Controllers\NoteController.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\Controllers\ProfileController.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\Controllers\SuggestionController.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\Program.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\obj\Debug\net10.0\DisSagligiTakipApp.API.GlobalUsings.g.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\obj\Debug\net10.0\.NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\obj\Debug\net10.0\Sentry.Attributes.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\obj\Debug\net10.0\DisSagligiTakipApp.API.AssemblyInfo.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\obj\Debug\net10.0\DisSagligiTakipApp.API.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\appsettings.Development.json
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\appsettings.json
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\DisSagligiTakipApp.API.http
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.API\Properties\launchSettings.json

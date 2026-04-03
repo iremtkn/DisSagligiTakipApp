@@ -1,0 +1,7 @@
+﻿C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Data\AppDbContext.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Data\Class1.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Data\Migrations\20260311112020_InitialCreate.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Data\Migrations\20260311112020_InitialCreate.Designer.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Data\Migrations\20260317132752_AddDailyRecords.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Data\Migrations\20260317132752_AddDailyRecords.Designer.cs
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Data\Migrations\AppDbContextModelSnapshot.cs

@@ -1,0 +1,11 @@
+Y
+PC:\Users\Ä°rem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Core\Class1.csutf-8d
+[C:\Users\Ä°rem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Core\Entities\Activity.csutf-8g
+^C:\Users\Ä°rem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Core\Entities\DailyRecord.csutf-8`
+WC:\Users\Ä°rem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Core\Entities\Goal.csutf-8`
+WC:\Users\Ä°rem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Core\Entities\Note.csutf-8f
+]C:\Users\Ä°rem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Core\Entities\Suggestion.csutf-8`
+WC:\Users\Ä°rem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Core\Entities\User.csutf-8Ž
+‚C:\Users\Ä°rem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Core\obj\Debug\net10.0\DisSagligiTakipApp.Core.GlobalUsings.g.csutf-8”
+ˆC:\Users\Ä°rem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Core\obj\Debug\net10.0\.NETCoreApp,Version=v10.0.AssemblyAttributes.csutf-8Œ
+€C:\Users\Ä°rem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Core\obj\Debug\net10.0\DisSagligiTakipApp.Core.AssemblyInfo.csutf-8

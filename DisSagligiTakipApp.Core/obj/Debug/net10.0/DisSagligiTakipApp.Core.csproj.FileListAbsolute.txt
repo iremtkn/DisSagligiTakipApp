@@ -9,3 +9,4 @@ C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Core\obj\Debug
 C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Core\obj\Debug\net10.0\refint\DisSagligiTakipApp.Core.dll
 C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Core\obj\Debug\net10.0\DisSagligiTakipApp.Core.pdb
 C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Core\obj\Debug\net10.0\ref\DisSagligiTakipApp.Core.dll
+C:\Users\İrem\source\repos\DisSagligiTakipApp\DisSagligiTakipApp.Core\obj\Debug\net10.0\DisSagligiTakipApp.Core.sourcelink.json
