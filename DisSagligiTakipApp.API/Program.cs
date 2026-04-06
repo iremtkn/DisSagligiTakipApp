@@ -9,12 +9,13 @@ using System.Reflection;
 using Serilog.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
+var elasticUri = builder.Configuration["ElasticConfiguration:Uri"] ?? "http://localhost:9200";
 
 Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
     .Enrich.WithExceptionDetails() 
     .WriteTo.Console() 
-    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(builder.Configuration["ElasticConfiguration:Uri"] ?? "http://localhost:9200"))
+    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(elasticUri))
     {
         AutoRegisterTemplate = true,
         IndexFormat = $"dis-sagligi-log-{DateTime.UtcNow:yyyy-MM}" 
@@ -30,13 +31,12 @@ builder.WebHost.UseSentry(options =>
     options.TracesSampleRate = 1.0;
 });
 
-
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddStackExchangeRedisCache(options =>
 {
-    options.Configuration = "localhost:6379"; 
+    options.Configuration = builder.Configuration.GetConnectionString("Redis") ?? "localhost:6379"; 
     options.InstanceName = "DisSagligi_";
 });
 
