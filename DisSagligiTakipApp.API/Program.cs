@@ -9,13 +9,16 @@ using System.Reflection;
 using Serilog.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
-var elasticUri = builder.Configuration["ElasticConfiguration:Uri"] ?? "http://localhost:9200";
+
+var elasticSettings = builder.Configuration.GetSection("ElasticConfiguration:Uri").Value;
+
+var finalElasticUri = string.IsNullOrEmpty(elasticSettings) ? "http://localhost:9200" : elasticSettings;
 
 Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
     .Enrich.WithExceptionDetails() 
     .WriteTo.Console() 
-    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(elasticUri))
+    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(finalElasticUri)) 
     {
         AutoRegisterTemplate = true,
         IndexFormat = $"dis-sagligi-log-{DateTime.UtcNow:yyyy-MM}" 
@@ -34,9 +37,12 @@ builder.WebHost.UseSentry(options =>
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+var redisConn = builder.Configuration.GetConnectionString("Redis");
+var finalRedisConn = string.IsNullOrEmpty(redisConn) ? "localhost:6379" : redisConn;
+
 builder.Services.AddStackExchangeRedisCache(options =>
 {
-    options.Configuration = builder.Configuration.GetConnectionString("Redis") ?? "localhost:6379"; 
+    options.Configuration = finalRedisConn; 
     options.InstanceName = "DisSagligi_";
 });
 
