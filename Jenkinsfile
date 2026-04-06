@@ -6,13 +6,12 @@ pipeline {
     }
 
     tools {
-        dotnetsdk 'dotnet8' 
+        dotnetsdk 'dotnet-sdk' 
     }
 
     stages {
         stage('Derleme (Build)') {
             steps {
-                echo 'API Projesi Derleniyor...'
                 dir('DisSagligiTakipApp.API') {
                     sh 'dotnet build'
                 }
@@ -20,7 +19,6 @@ pipeline {
         }
         stage('Selenium Testleri') {
             steps {
-                echo 'Testler Baslatiliyor...'
                 dir('DisSagligiTakipApp.Tests') {
                     sh 'dotnet test'
                 }
