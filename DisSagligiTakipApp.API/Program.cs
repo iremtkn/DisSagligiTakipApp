@@ -10,22 +10,23 @@ using Serilog.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var elasticSettings = builder.Configuration.GetSection("ElasticConfiguration:Uri").Value;
+var elasticUri = builder.Configuration["ElasticConfiguration:Uri"];
 
-var finalElasticUri = string.IsNullOrEmpty(elasticSettings) ? "http://localhost:9200" : elasticSettings;
+if (!string.IsNullOrEmpty(elasticUri))
+{
+    Log.Logger = new LoggerConfiguration()
+        .Enrich.FromLogContext()
+        .Enrich.WithExceptionDetails() 
+        .WriteTo.Console() 
+        .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(elasticUri)) 
+        {
+            AutoRegisterTemplate = true,
+            IndexFormat = $"dis-sagligi-log-{DateTime.UtcNow:yyyy-MM}" 
+        })
+        .CreateLogger();
 
-Log.Logger = new LoggerConfiguration()
-    .Enrich.FromLogContext()
-    .Enrich.WithExceptionDetails() 
-    .WriteTo.Console() 
-    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(finalElasticUri)) 
-    {
-        AutoRegisterTemplate = true,
-        IndexFormat = $"dis-sagligi-log-{DateTime.UtcNow:yyyy-MM}" 
-    })
-    .CreateLogger();
-
-builder.Host.UseSerilog(); 
+    builder.Host.UseSerilog();
+}
 
 builder.WebHost.UseSentry(options =>
 {
@@ -38,13 +39,14 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var redisConn = builder.Configuration.GetConnectionString("Redis");
-var finalRedisConn = string.IsNullOrEmpty(redisConn) ? "localhost:6379" : redisConn;
-
-builder.Services.AddStackExchangeRedisCache(options =>
+if (!string.IsNullOrEmpty(redisConn))
 {
-    options.Configuration = finalRedisConn; 
-    options.InstanceName = "DisSagligi_";
-});
+    builder.Services.AddStackExchangeRedisCache(options =>
+    {
+        options.Configuration = redisConn; 
+        options.InstanceName = "DisSagligi_";
+    });
+}
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
