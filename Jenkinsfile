@@ -1,15 +1,19 @@
 pipeline {
     agent any
 
+    tools {
+        dotnetsdk 'dotnet8' 
+    }
+
     stages {
-        stage('Derleme') {
+        stage('Derleme (Build)') {
             steps {
-                sh 'dotnet build'
+                sh 'dotnet build DisSagligiTakipApp.slnx'
             }
         }
-        stage('Selenium Testi') {
+        stage('Selenium Testleri') {
             steps {
-                sh 'dotnet test'
+                sh 'dotnet test DisSagligiTakipApp.Tests'
             }
         }
     }
