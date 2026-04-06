@@ -4,6 +4,7 @@ pipeline {
     environment {
         DOTNET_SYSTEM_GLOBALIZATION_INVARIANT = 'true'
         SONAR_TOKEN = credentials('sonar-token')
+        PATH = "$PATH:/var/jenkins_home/.dotnet/tools"
     }
 
     tools {
@@ -15,14 +16,16 @@ pipeline {
         stage('Backend & SonarQube Analizi') {
             steps {
                 dir('DisSagligiTakipApp.API') {
-                    echo 'SonarQube Analizi Hazırlanıyor...'
+                    echo 'SonarQube Scanner Aracı Kuruluyor/Kontrol Ediliyor...'
+                    sh 'dotnet tool install --global dotnet-sonarscanner || true'
                     
+                    echo 'SonarQube Analizi Başlatılıyor...'
                     sh 'dotnet sonarscanner begin /k:"DisSagligiBackend" /d:sonar.token="${SONAR_TOKEN}" /d:sonar.host.url="http://localhost:9000"'
                     
                     echo 'Backend Derleniyor...'
                     sh 'dotnet build'
                     
-                    echo 'Analiz Sonuçları SonarQube\'a Gönderiliyor...'
+                    echo 'Analiz Sonuçları Gönderiliyor...'
                     sh 'dotnet sonarscanner end /d:sonar.token="${SONAR_TOKEN}"'
                 }
             }
@@ -31,9 +34,7 @@ pipeline {
         stage('Frontend Hazırlık (Sakai-React)') {
             steps {
                 dir('sakai-react-master/sakai-react-master') {
-                    echo 'React kütüphaneleri yükleniyor...'
                     sh 'npm install'
-                    echo 'Frontend build ediliyor...'
                     sh 'npm run build'
                 }
             }
