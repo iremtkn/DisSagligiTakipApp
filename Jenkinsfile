@@ -1,5 +1,6 @@
 pipeline {
     agent any
+
     environment {
         DOTNET_SYSTEM_GLOBALIZATION_INVARIANT = 'true'
     }
@@ -11,12 +12,12 @@ pipeline {
     stages {
         stage('Derleme (Build)') {
             steps {
-                sh 'dotnet build DisSagligiTakipApp.slnx'
+                sh 'dotnet build .'
             }
         }
         stage('Selenium Testleri') {
             steps {
-                sh 'dotnet test DisSagligiTakipApp.Tests'
+                sh 'dotnet test DisSagligiTakipApp.Tests/'
             }
         }
     }
