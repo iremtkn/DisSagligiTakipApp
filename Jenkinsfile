@@ -12,12 +12,18 @@ pipeline {
     stages {
         stage('Derleme (Build)') {
             steps {
-                sh 'dotnet build .'
+                echo 'API Projesi Derleniyor...'
+                dir('DisSagligiTakipApp.API') {
+                    sh 'dotnet build'
+                }
             }
         }
         stage('Selenium Testleri') {
             steps {
-                sh 'dotnet test DisSagligiTakipApp.Tests/'
+                echo 'Testler Baslatiliyor...'
+                dir('DisSagligiTakipApp.Tests') {
+                    sh 'dotnet test'
+                }
             }
         }
     }
