@@ -16,11 +16,11 @@ pipeline {
         stage('Backend & SonarQube Analizi') {
             steps {
                 dir('DisSagligiTakipApp.API') {
-                    echo 'SonarQube Scanner Aracı Kuruluyor/Kontrol Ediliyor...'
+                    echo 'SonarQube Scanner Aracı Kontrol Ediliyor...'
                     sh 'dotnet tool install --global dotnet-sonarscanner || true'
                     
                     echo 'SonarQube Analizi Başlatılıyor...'
-                    sh 'dotnet sonarscanner begin /k:"DisSagligiBackend" /d:sonar.token="${SONAR_TOKEN}" /d:sonar.host.url="http://localhost:9000"'
+                    sh 'dotnet sonarscanner begin /k:"DisSagligiBackend" /d:sonar.token="${SONAR_TOKEN}" /d:sonar.host.url="http://host.docker.internal:9000"'
                     
                     echo 'Backend Derleniyor...'
                     sh 'dotnet build'
