@@ -58,17 +58,11 @@ namespace DisSagligiTakipApp.API.Controllers
         [HttpGet("test-hata")]
         public IActionResult TestHata()
         {
-        try {
+        SentrySdk.CaptureMessage("Sentry Sistemi Aktif Edildi - İrem"); 
+
         int a = 10;
         int b = 0;
-        int sonuc = a / b; 
-        return Ok(sonuc);
-        }
-        catch (Exception ex)
-        {
-        Log.Error(ex, "Kritik bir hata oluştu: Diş Sağlığı Uygulaması Test Hatası!");
-        throw; 
-        }
+        return Ok(a / b);
         }
 
         [HttpPost("reset-password")]
