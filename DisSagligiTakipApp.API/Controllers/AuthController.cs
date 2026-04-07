@@ -2,6 +2,7 @@ using DisSagligiTakipApp.Core.Entities;
 using DisSagligiTakipApp.Service.Abstract;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using Serilog;
 
 namespace DisSagligiTakipApp.API.Controllers
 {
@@ -52,6 +53,22 @@ namespace DisSagligiTakipApp.API.Controllers
 
             var user = _userService.GetByEmail(email);
             return Ok(new { exists = user != null });
+        }
+
+        [HttpGet("test-hata")]
+        public IActionResult TestHata()
+        {
+        try {
+        int a = 10;
+        int b = 0;
+        int sonuc = a / b; 
+        return Ok(sonuc);
+        }
+        catch (Exception ex)
+        {
+        Log.Error(ex, "Kritik bir hata oluştu: Diş Sağlığı Uygulaması Test Hatası!");
+        throw; 
+        }
         }
 
         [HttpPost("reset-password")]
