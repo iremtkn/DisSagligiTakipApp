@@ -15,6 +15,7 @@
           "Microsoft.EntityFrameworkCore.Design": "10.0.4",
           "Microsoft.EntityFrameworkCore.SqlServer": "10.0.4",
           "Microsoft.Extensions.Caching.StackExchangeRedis": "10.0.5",
+          "Selenium.WebDriver": "4.41.0",
           "Sentry.AspNetCore": "6.3.0",
           "Serilog.AspNetCore": "10.0.0",
           "Serilog.Exceptions": "8.4.0",
@@ -684,6 +685,31 @@
           }
         }
       },
+      "Selenium.WebDriver/4.41.0": {
+        "runtime": {
+          "lib/net8.0/WebDriver.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.0.0"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/linux/native/selenium-manager": {
+            "rid": "linux",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/osx/native/selenium-manager": {
+            "rid": "osx",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win/native/selenium-manager.exe": {
+            "rid": "win",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
       "Sentry/6.3.0": {
         "runtime": {
           "lib/net10.0/Sentry.dll": {
@@ -1324,6 +1350,13 @@
       "sha512": "sha512-zG2FApP5zxSx6OcdJQLbZDk2AVlN2BNQD6MorwIfV6gVj0RRxWPEp2LXAxqDGZqeNV1Zp0BNPcNaey/GXmTdvQ==",
       "path": "pipelines.sockets.unofficial/2.2.8",
       "hashPath": "pipelines.sockets.unofficial.2.2.8.nupkg.sha512"
+    },
+    "Selenium.WebDriver/4.41.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-oQPPzUGYy7M5+m3cMlGUKiswVLX/TbGySKH0jHsT0B9ZNfPZO6b0aqKNopR0FmDbSgjUsHoA9Vdur81/WW4DGg==",
+      "path": "selenium.webdriver/4.41.0",
+      "hashPath": "selenium.webdriver.4.41.0.nupkg.sha512"
     },
     "Sentry/6.3.0": {
       "type": "package",

@@ -25,9 +25,9 @@ public class NoteController : ControllerBase
             .OrderByDescending(n => n.CreatedDate)
             .Select(n => new {
                 n.Id,
-                n.Description,
-                n.ImagePath,
-                createdDate = n.CreatedDate.ToString("yyyy-MM-dd HH:mm"),
+                note        = n.Description,
+                imageUrl    = n.ImagePath,
+                date        = n.CreatedDate.ToString("yyyy-MM-dd HH:mm"),
                 n.UserId
             })
             .ToList();
@@ -64,9 +64,9 @@ public class NoteController : ControllerBase
         var note = new Note
         {
             Description = description,
-            ImagePath = imagePath,
+            ImagePath   = imagePath,
             CreatedDate = DateTime.Now,
-            UserId = userId
+            UserId      = userId
         };
 
         _context.Notes.Add(note);
@@ -74,9 +74,9 @@ public class NoteController : ControllerBase
 
         return Ok(new {
             note.Id,
-            note.Description,
-            note.ImagePath,
-            createdDate = note.CreatedDate.ToString("yyyy-MM-dd HH:mm"),
+            note     = note.Description,
+            imageUrl = note.ImagePath,
+            date     = note.CreatedDate.ToString("yyyy-MM-dd HH:mm"),
             note.UserId
         });
     }

@@ -27,7 +27,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
     return (
         <div className="layout-topbar">
             <Link href="/" className="layout-topbar-logo">
-                <img src={`/layout/images/logo-${layoutConfig.colorScheme !== 'light' ? 'white' : 'dark'}.svg`} width="47.22px" height={'35px'} alt="logo" />
+                <i className="pi pi-shield text-primary" style={{ fontSize: '2.5rem' }}></i>
                 <span>DentalCare</span>
             </Link>
 
@@ -40,28 +40,12 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
             </button>
 
             <div ref={topbarmenuRef} className={classNames('layout-topbar-menu', { 'layout-topbar-menu-mobile-active': layoutState.profileSidebarVisible })}>
-                
                 <div className="flex align-items-center gap-2 mr-3 border-right-1 surface-border pr-3 ml-3">
-                <button 
-                  type="button" 
-                  className={`p-link font-medium ${i18n.language === 'tr' ? 'text-primary font-bold' : 'text-600'}`} 
-                  onClick={() => i18n.changeLanguage('tr')}>
-                  TR
-                </button>
-                <span className="text-400">|</span>
-                <button 
-                  type="button" 
-                  className={`p-link font-medium ${i18n.language === 'en' ? 'text-primary font-bold' : 'text-600'}`} 
-                  onClick={() => i18n.changeLanguage('en')}>
-                  EN
-                </button>
-                <span className='text-400'>|</span>
-                <button 
-                  type="button" 
-                  className={`p-link font-medium ${i18n.language === 'de' ? 'text-primary font-bold' : 'text-600'}`} 
-                  onClick={() => i18n.changeLanguage('de')}>
-                  DE
-                </button>
+                    <button type="button" className={`p-link font-medium ${i18n.language === 'tr' ? 'text-primary font-bold' : 'text-600'}`} onClick={() => i18n.changeLanguage('tr')}>TR</button>
+                    <span className="text-400">|</span>
+                    <button type="button" className={`p-link font-medium ${i18n.language === 'en' ? 'text-primary font-bold' : 'text-600'}`} onClick={() => i18n.changeLanguage('en')}>EN</button>
+                    <span className='text-400'>|</span>
+                    <button type="button" className={`p-link font-medium ${i18n.language === 'de' ? 'text-primary font-bold' : 'text-600'}`} onClick={() => i18n.changeLanguage('de')}>DE</button>
                 </div>
                 
                 <button type="button" className="p-link layout-topbar-button" onClick={(e) => op.current?.toggle(e)}>
@@ -70,15 +54,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
                 </button>
 
                 <OverlayPanel ref={op} appendTo={typeof window !== 'undefined' ? document.body : undefined}>
-                    <Calendar 
-                        value={date} 
-                        onChange={(e) => {
-                            setDate(e.value as Date);
-                            op.current?.hide();
-                        }} 
-                        inline 
-                        showWeek 
-                    />
+                    <Calendar value={date} onChange={(e) => { setDate(e.value as Date); op.current?.hide(); }} inline showWeek />
                 </OverlayPanel>
 
                 <Link href="/profile">
@@ -88,14 +64,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
                     </button>
                 </Link>
 
-                <button 
-                    type="button" 
-                    className="p-link layout-topbar-button" 
-                    onClick={() => {
-                        const configButton = document.querySelector('.layout-config-button') as HTMLElement;
-                        if (configButton) configButton.click();
-                    }}
-                >
+                <button type="button" className="p-link layout-topbar-button" onClick={() => { const configButton = document.querySelector('.layout-config-button') as HTMLElement; if (configButton) configButton.click(); }}>
                     <i className="pi pi-cog"></i>
                     <span>{t('settings')}</span>
                 </button>
@@ -105,5 +74,4 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
 });
 
 AppTopbar.displayName = 'AppTopbar';
-
 export default AppTopbar;

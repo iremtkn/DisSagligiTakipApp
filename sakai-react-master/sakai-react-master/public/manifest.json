@@ -1,0 +1,16 @@
+{
+  "short_name": "DişSağlığı",
+  "name": "Diş Sağlığı Takip Uygulaması",
+  "icons": [
+    {
+      "src": "/layout/images/logo-dark.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192 512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#2196F3",
+  "background_color": "#ffffff"
+}

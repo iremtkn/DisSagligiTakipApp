@@ -9,4 +9,9 @@ public interface IDailyRecordService
     DailyRecord? GetToday(int userId);
 
     DailyRecord Upsert(int userId, int brushCount, bool flossed, bool mouthwash);
+
+    Task<DailyRecord?> GetTodayRecordAsync(int userId);
+    Task RecordBrushingAsync(int userId);
+
+    
 }

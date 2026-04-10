@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DisSagligiTakipApp.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+65faab3f8b0f9206f0b97d6e0263d5d3f7bd4cfa")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7414577c7c6fa1a3e642e89802a2a7a82af706e2")]
 [assembly: System.Reflection.AssemblyProductAttribute("DisSagligiTakipApp.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DisSagligiTakipApp.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -15,11 +15,13 @@ import { PrimeReactContext } from 'primereact/api';
 import { ChildContainerProps, LayoutState, AppTopbarRef } from '@/types';
 import { usePathname, useSearchParams } from 'next/navigation';
 
+
 const Layout = ({ children }: ChildContainerProps) => {
     const { layoutConfig, layoutState, setLayoutState } = useContext(LayoutContext);
     const { setRipple } = useContext(PrimeReactContext);
     const topbarRef = useRef<AppTopbarRef>(null);
     const sidebarRef = useRef<HTMLDivElement>(null);
+    
     const [bindMenuOutsideClickListener, unbindMenuOutsideClickListener] = useEventListener({
         type: 'click',
         listener: (event) => {
@@ -38,10 +40,26 @@ const Layout = ({ children }: ChildContainerProps) => {
 
     const pathname = usePathname();
     const searchParams = useSearchParams();
+    
     useEffect(() => {
         hideMenu();
         hideProfileMenu();
     }, [pathname, searchParams]);
+
+    useEffect(() => {
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').then(
+                    function(registration) {
+                        console.log('ServiceWorker kaydı başarılı: ', registration.scope);
+                    },
+                    function(err) {
+                        console.log('ServiceWorker kaydı başarısız: ', err);
+                    }
+                );
+            });
+        }
+    }, []);
 
     const [bindProfileMenuOutsideClickListener, unbindProfileMenuOutsideClickListener] = useEventListener({
         type: 'click',
@@ -125,6 +143,11 @@ const Layout = ({ children }: ChildContainerProps) => {
 
     return (
         <React.Fragment>
+            <>
+              <link rel="manifest" href="/manifest.json" />
+              <meta name="theme-color" content="#2196F3" />
+            </>
+
             <div className={containerClass}>
                 <AppTopbar ref={topbarRef} />
                 <div ref={sidebarRef} className="layout-sidebar">

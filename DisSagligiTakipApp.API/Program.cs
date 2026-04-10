@@ -11,7 +11,6 @@ using Serilog.Exceptions;
 var builder = WebApplication.CreateBuilder(args);
 
 var elasticUri = builder.Configuration["ElasticConfiguration:Uri"];
-
 if (!string.IsNullOrEmpty(elasticUri))
 {
     Log.Logger = new LoggerConfiguration()
@@ -63,15 +62,19 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseCors("AllowReactApp");
+app.UseCors("AllowReactApp"); 
+
 app.UseStaticFiles();
 app.UseAuthorization();
 app.MapControllers();
+
+Log.Information("Diş Sağlığı Takip API Sistemi Başlatıldı...");
 
 app.Run();

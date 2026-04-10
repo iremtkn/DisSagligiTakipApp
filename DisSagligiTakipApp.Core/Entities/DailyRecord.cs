@@ -1,4 +1,5 @@
 namespace DisSagligiTakipApp.Core.Entities;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class DailyRecord
 {
@@ -13,4 +14,13 @@ public class DailyRecord
     public bool Flossed { get; set; } = false;
 
     public bool Mouthwash { get; set; } = false;
+
+    [NotMapped]
+    public int HealthScore { get; set; }
+
+    [NotMapped]
+    public int Streak { get; set; }
+
+    [NotMapped]
+    public int[]? WeeklyData { get; set; }
 }

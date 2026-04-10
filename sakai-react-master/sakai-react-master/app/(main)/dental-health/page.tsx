@@ -1,245 +1,269 @@
 'use client';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { TabView, TabPanel } from 'primereact/tabview';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
-import { Calendar } from 'primereact/calendar';
-import { Checkbox } from 'primereact/checkbox';
 import { Dropdown } from 'primereact/dropdown';
 import { Tag } from 'primereact/tag';
+import { Toast } from 'primereact/toast';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { FileUpload } from 'primereact/fileupload';
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { useTranslation } from 'react-i18next';
-import axios from 'axios';
+import { useAuth } from '@/layout/context/AuthContext';
+import { useRouter } from 'next/navigation';
+import { DentalService } from '../../../demo/service/DentalService';
 
-const API = 'http://localhost:5259/api';
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5259';
+
+interface Note { id: number; note: string; date: string; imageUrl?: string; }
+interface Goal { id: number; title: string; description: string; period: string; priority: string; userId: number; }
+interface Activity { id: number; date: string; time: string; goalTitle: string; period?: string; isApplied: boolean; }
 
 const DentalHealthPage = () => {
-    const { t, i18n } = useTranslation();
-    const [goals, setGoals] = useState<any[]>([]);
-    const [recentActivities, setRecentActivities] = useState<any[]>([]);
+    const { t } = useTranslation();
+    const { user } = useAuth();
+    const router = useRouter();
+    const toast = useRef<Toast>(null);
+
     const [dailyRecords, setDailyRecords] = useState<any[]>([]);
-    const [tip, setTip] = useState('');
-    const [activityForms, setActivityForms] = useState<any>({});
+    const [goals, setGoals]               = useState<Goal[]>([]);
+    const [notes, setNotes]               = useState<Note[]>([]);
 
-    const priorityOptions = [
-        { label: t('low'), value: 'low' },
-        { label: t('medium'), value: 'medium' },
-        { label: t('high'), value: 'high' }
-    ];
+    const activities = useMemo(() => {
+        return goals.map((g: Goal) => ({
+            id: g.id,
+            date: t('active_goal'), 
+            time: '',
+            goalTitle: g.title,
+            period: g.period,
+            isApplied: true
+        }));
+    }, [goals, t]);
 
-    const getLocalTips = useCallback(() => {
-        const tips: any = {
-            tr: [
-                "Florürlü diş macunu kullanmak diş minesini güçlendirir.",
-                "Diş ipi kullanımı diş aralarındaki plakları temizler.",
-                "Şekerli gıdalardan sonra ağzınızı çalkalamak asit etkisini azaltır.",
-                "Diş fırçanızı her 3 ayda bir değiştirmeyi unutmayın."
-            ],
-            en: [
-                "Using fluoride toothpaste strengthens tooth enamel.",
-                "Flossing removes plaque between teeth.",
-                "Rinsing your mouth after sugary foods reduces acid effects.",
-                "Remember to change your toothbrush every 3 months."
-            ],
-            de: [
-                "Die Verwendung von fluoridhaltiger Zahnpasta stärkt den Zahnschmelz.",
-                "Zahnseide entfernt Plaque zwischen den Zähnen.",
-                "Das Ausspülen des Mundes nach zuckerhaltigen Speisen reduziert die Säurewirkung.",
-                "Vergessen Sie nicht, Ihre Zahnbürste alle 3 Monate zu wechseln."
-            ]
-        };
-        const currentLang = i18n.language.split('-')[0] || 'tr';
-        return tips[currentLang] || tips['tr'];
-    }, [i18n.language]);
+    const getTips = () => [t('tip_1'), t('tip_2'), t('tip_3'), t('tip_4')];
+    const [tipIndex, setTipIndex] = useState(0);
+
+    const [newNote, setNewNote]         = useState('');
+    const [noteFile, setNoteFile]       = useState<File | null>(null);
+    const [newGoal, setNewGoal]         = useState({ title: '', description: '', period: '', priority: '' });
 
     useEffect(() => {
-        const localTips = getLocalTips();
-        setTip(localTips[Math.floor(Math.random() * localTips.length)]);
-    }, [i18n.language, getLocalTips]);
+        if (!user) { router.push('/auth/login'); return; }
+        loadAll();
+    }, [user]);
 
-    const fetchAllData = useCallback(async () => {
-        const userData = JSON.parse(localStorage.getItem('user') || '{}');
-        const userId = userData?.id;
-        if (!userId) return;
-
+    const loadAll = async () => {
+        if (!user) return;
         try {
-            const [goalsRes, activitiesRes, dailyRes, tipRes] = await Promise.all([
-                axios.get(`${API}/goal/user/${userId}`),
-                axios.get(`${API}/activity/last7days/${userId}`),
-                axios.get(`${API}/dailyrecord/last7days/${userId}`),
-                axios.get(`${API}/suggestion/random`)
+            const [rec, gls, nts] = await Promise.all([
+                DentalService.getDailyRecords(user.id),
+                DentalService.getUserGoals(user.id),
+                DentalService.getNotes(user.id)
             ]);
-
-            setGoals(goalsRes.data || []);
-            setRecentActivities(activitiesRes.data || []);
-            setDailyRecords(dailyRes.data || []);
-            
-            if (tipRes.data && tipRes.data.text) {
-                setTip(tipRes.data.text);
-            }
-
-            const forms: any = {};
-            (goalsRes.data || []).forEach((g: any) => {
-                forms[g.id] = { date: new Date(), duration: '', isApplied: false };
-            });
-            setActivityForms(forms);
+            setDailyRecords(rec || []);
+            setGoals(gls || []);
+            setNotes(nts || []);
         } catch (err) {
-            console.log("Veri çekme hatası.");
+            console.error("Veri yükleme hatası:", err);
         }
-    }, []);
-
-    useEffect(() => { fetchAllData(); }, [fetchAllData]);
-
-    const handleRefreshTip = () => {
-        const localTips = getLocalTips();
-        setTip(localTips[Math.floor(Math.random() * localTips.length)]);
     };
 
-    const priorityBodyTemplate = (rowData: any) => {
-        const severities: any = { high: 'danger', medium: 'warning', low: 'info' };
-        return <Tag value={t(rowData.priority) || rowData.priority} severity={severities[rowData.priority] || 'info'} />;
+    const getGreeting = () => {
+        const hour = new Date().getHours();
+        const name = user?.firstName || '';
+        if (hour < 12) return `${t('greeting_morning')} ${name}`;
+        if (hour < 18) return `${t('greeting_afternoon')} ${name}`;
+        return `${t('greeting_evening')} ${name}`;
     };
 
-    const SuggestionBox = () => (
-        <div className="mt-4 p-3 bg-primary-50 border-round-xl border-1 surface-border flex align-items-center gap-3 relative shadow-1" style={{ minHeight: '75px' }}>
-            <div className="flex align-items-center justify-content-center bg-primary border-round-md text-white shadow-1" style={{ width: '45px', height: '45px', flexShrink: 0 }}>
-                <i className="pi pi-bookmark-fill text-xl"></i>
-            </div>
-            <div className="flex flex-column flex-grow-1 pr-5">
-                <span className="font-bold text-xs text-primary uppercase mb-1">{t('suggestion_title')}</span>
-                <p className="m-0 text-700 text-sm italic line-height-2">{tip}</p>
-            </div>
-            <Button 
-                icon="pi pi-refresh" 
-                className="p-button-rounded p-button-text p-button-sm text-primary p-0 absolute" 
-                style={{ top: '8px', right: '8px' }}
-                onClick={handleRefreshTip} 
-            />
-        </div>
-    );
+    const handleRandomTip = () => {
+        setTipIndex((prev) => (prev + 1) % getTips().length);
+    };
+
+    const handleSaveNote = async () => {
+        if (!user || !newNote.trim()) return;
+        try {
+            const saved = await DentalService.saveNoteWithImage(user.id, newNote, noteFile || undefined);
+            const formattedNote: Note = {
+                id: saved.id,
+                note: saved.note || saved.description,
+                date: saved.date,
+                imageUrl: saved.imageUrl || saved.imagePath
+            };
+            setNotes(prev => [formattedNote, ...prev]);
+            setNewNote('');
+            setNoteFile(null);
+            toast.current?.show({ severity: 'success', summary: t('completed'), detail: t('save') });
+        } catch { 
+            toast.current?.show({ severity: 'error', summary: 'Hata', detail: 'Hata' }); 
+        }
+    };
+
+    const confirmDeleteNote = (noteId: number) => {
+        confirmDialog({
+            message: 'Bu notu silmek istediğinize emin misiniz?',
+            header: 'Notu Sil',
+            icon: 'pi pi-exclamation-triangle',
+            acceptLabel: 'Evet',
+            rejectLabel: 'Hayır',
+            acceptClassName: 'p-button-danger',
+            accept: () => handleDeleteNote(noteId)
+        });
+    };
+
+    const handleDeleteNote = async (noteId: number) => {
+        try {
+            await DentalService.deleteNote(noteId);
+            setNotes(prev => prev.filter(n => n.id !== noteId));
+            toast.current?.show({ severity: 'success', summary: t('completed'), detail: t('done') });
+        } catch { }
+    };
+
+    const handleAddGoal = async () => {
+        if (!user || !newGoal.title.trim()) return;
+        try {
+            await DentalService.addGoal({ ...newGoal, userId: user.id });
+            setNewGoal({ title: '', description: '', period: '', priority: '' });
+            loadAll(); 
+        } catch { }
+    };
+
+    const handleDeleteGoal = async (id: number) => {
+        try {
+            await DentalService.deleteGoal(id);
+            setGoals(prev => prev.filter(g => g.id !== id));
+            toast.current?.show({ severity: 'info', summary: 'Silindi', detail: 'Hedef kaldırıldı.' });
+        } catch { }
+    };
 
     return (
         <div className="grid">
+            <Toast ref={toast} />
+            <ConfirmDialog />
+            
             <div className="col-12">
-                <div className="card shadow-2 border-round-xl">
-                    <div className="flex align-items-center gap-3 mb-5 border-bottom-1 surface-border pb-3">
-                        <i className="pi pi-shield text-blue-500 text-4xl"></i>
-                        <h2 className="m-0 text-900 font-medium">{t('dental_health_title')}</h2>
-                    </div>
+                <div className="mb-4 ml-2">
+                    <h2 className="m-0 font-bold text-primary">{getGreeting()}</h2>
+                    <small className="text-500">{t('dashboard_subtitle')}</small>
+                </div>
 
-                    <TabView>
-                        <TabPanel header={t('status_tab')} leftIcon="pi pi-chart-bar mr-2">
-                            <div className="grid mt-3">
-                                <div className="col-12 lg:col-6 mb-4">
-                                    <div className="p-4 surface-card border-round-xl shadow-1 border-1 surface-border h-full">
-                                        <h5 className="mb-4 font-bold"><i className="pi pi-home mr-2 text-primary"></i>{t('daily_summary')}</h5>
-                                        {dailyRecords.length > 0 ? dailyRecords.map((r, i) => (
-                                            <div key={i} className="flex align-items-center justify-content-between p-3 surface-50 border-round-lg mb-2 border-1 surface-border shadow-sm">
-                                                <span className="font-bold text-700">{new Date(r.date).toLocaleDateString(i18n.language === 'tr' ? 'tr-TR' : 'en-US')}</span>
-                                                <div className="flex gap-2">
-                                                    {r.brushCount > 0 && <Tag severity="info" value={`🪥 ${r.brushCount}/3`} rounded />}
-                                                    {r.flossed && <Tag severity="success" value="🧵" rounded />}
+                <div className="flex align-items-center gap-2 mb-3 ml-2">
+                    <i className="pi pi-shield text-primary text-2xl"></i>
+                    <h3 className="m-0 font-semibold">{t('dental_health_title')}</h3>
+                </div>
+
+                <TabView>
+                    <TabPanel header={t('status_tab')} leftIcon="pi pi-chart-bar mr-2">
+                        <div className="grid mt-2">
+                            <div className="col-12 lg:col-6">
+                                <div className="card shadow-1 border-round-xl p-4 h-full">
+                                    <h5 className="mb-4 font-bold"><i className="pi pi-calendar mr-2 text-primary"></i>{t('daily_summary')}</h5>
+                                    <div className="flex flex-column gap-3">
+                                        {dailyRecords.length > 0 ? dailyRecords.map((rec, i) => (
+                                            <div key={i} className="flex justify-content-between p-3 surface-50 border-round align-items-center border-left-3 border-primary">
+                                                <div className="flex flex-column">
+                                                    <span className="text-sm font-bold">{rec.date?.split('T')[0]}</span>
+                                                    <div className="flex gap-2 mt-2">
+                                                        <Tag value={`${rec.brushCount} ${t('brushing')}`} severity="warning" />
+                                                        {rec.flossed && <Tag value={t('flossing')} severity="info" />}
+                                                        {rec.mouthwash && <Tag value={t('mouthwash')} severity="success" />}
+                                                    </div>
                                                 </div>
+                                                <i className="pi pi-check-circle text-green-500 text-xl"></i>
                                             </div>
-                                        )) : <div className="text-center p-5 text-500 italic">{t('no_data')}</div>}
+                                        )) : <p className="text-500 text-sm">{t('no_data')}</p>}
                                     </div>
                                 </div>
+                            </div>
 
-                                <div className="col-12 lg:col-6 mb-4">
-                                    <div className="p-4 surface-card border-round-xl shadow-1 border-1 surface-border h-full">
-                                        <h5 className="mb-4 font-bold"><i className="pi pi-history mr-2 text-primary"></i>{t('recent_activities')}</h5>
-                                        {recentActivities.length > 0 ? recentActivities.slice(0, 5).map((a, i) => (
-                                            <div key={i} className="flex align-items-center justify-content-between p-3 border-bottom-1 surface-border hover:surface-50 transition-colors">
-                                                <div className="flex align-items-center gap-3">
-                                                    <i className="pi pi-check-circle text-green-500 text-xl"></i>
-                                                    <span className="font-semibold text-800">{a.goalTitle}</span>
+                            <div className="col-12 lg:col-6">
+                                <div className="card shadow-1 border-round-xl p-4 h-full">
+                                    <h5 className="mb-4 font-bold"><i className="pi pi-history mr-2 text-primary"></i>{t('recent_activities')}</h5>
+                                    {activities.length > 0 ? activities.map(act => (
+                                        <div key={act.id} className="p-2 mb-2 surface-50 border-round flex justify-content-between align-items-center">
+                                            <div className="flex flex-column">
+                                                <span className="font-bold text-sm">{act.goalTitle}</span>
+                                                <div className="flex gap-2 align-items-center">
+                                                    <small className="text-500">{act.date}</small>
+                                                    {act.period && <small className="text-primary font-medium">| {act.period}</small>}
                                                 </div>
-                                                <Tag severity="info" value={a.date} />
                                             </div>
-                                        )) : <div className="text-center p-5 text-500 italic">Son 7 günde kayıtlı aktivite bulunmuyor.</div>}
-                                    </div>
+                                            <i className="pi pi-calendar-plus text-primary"></i>
+                                        </div>
+                                    )) : <p className="text-500 text-sm">{t('no_data')}</p>}
                                 </div>
+                            </div>
 
-                                <div className="col-12 mt-4">
-                                    <h5 className="mb-4 font-bold text-900 border-left-3 border-blue-500 pl-3">{t('add_activity')}</h5>
+                            <div className="col-12 mt-4">
+                                <div className="card shadow-1 border-round-xl p-4 bg-blue-50">
+                                    <h5 className="mb-3 font-bold"><i className="pi pi-pencil mr-2 text-primary"></i>{t('add_note')}</h5>
                                     <div className="grid">
-                                        {goals.map((goal) => (
-                                            <div key={goal.id} className="col-12 md:col-6 lg:col-4 p-2">
-                                                <div className="p-4 surface-card border-round-xl border-1 surface-border shadow-1 hover:shadow-4 transition-all h-full">
-                                                    <div className="flex justify-content-between align-items-center mb-4">
-                                                        <span className="font-bold text-lg">{goal.title}</span>
-                                                        <Tag value={t(goal.priority)} severity={goal.priority === 'high' ? 'danger' : 'warning'} />
-                                                    </div>
-                                                    <div className="p-fluid">
-                                                        <Calendar value={activityForms[goal.id]?.date} className="p-inputtext-sm mb-3" showIcon placeholder={t('date')} />
-                                                        <div className="flex gap-2 align-items-center mb-4">
-                                                            <InputText placeholder={t('duration_min')} type="number" className="p-inputtext-sm" />
-                                                            <div className="flex align-items-center gap-2 ml-auto">
-                                                                <Checkbox inputId={`c-${goal.id}`} checked={activityForms[goal.id]?.isApplied} />
-                                                                <label htmlFor={`c-${goal.id}`} className="text-sm font-medium">{t('applied')}</label>
-                                                            </div>
-                                                        </div>
-                                                        <Button label={t('save')} icon="pi pi-check" className="p-button-raised shadow-2" />
-                                                    </div>
+                                        <div className="col-12 lg:col-8">
+                                            <InputTextarea value={newNote} onChange={(e) => setNewNote(e.target.value)} rows={4} className="w-full" />
+                                        </div>
+                                        <div className="col-12 lg:col-4 flex flex-column gap-3">
+                                            <Button icon="pi pi-image" label={t('upload_image')} className="w-full p-button-outlined bg-white" onClick={() => document.getElementById('file-upload')?.click()} />
+                                            <input id="file-upload" type="file" hidden onChange={(e) => setNoteFile(e.target.files?.[0] || null)} />
+                                            <Button icon="pi pi-save" label={t('save')} className="w-full" onClick={handleSaveNote} />
+                                        </div>
+                                    </div>
+                                    <div className="grid mt-4">
+                                        {notes.map(n => (
+                                            <div key={n.id} className="col-12 md:col-6 lg:col-4">
+                                                <div className="p-3 bg-white border-round shadow-1 h-full relative">
+                                                    <Button icon="pi pi-trash" className="p-button-rounded p-button-danger p-button-text absolute" style={{ top: '5px', right: '5px' }} onClick={() => confirmDeleteNote(n.id)} />
+                                                    <p className="m-0 text-sm font-medium pr-5">{n.note}</p>
+                                                    {n.imageUrl && <img src={`${API_BASE}${n.imageUrl}`} className="w-full mt-2 border-round" style={{maxHeight:'150px', objectFit:'cover'}} alt="note" />}
+                                                    <div className="mt-2 text-right"><small className="text-400">{n.date}</small></div>
                                                 </div>
                                             </div>
                                         ))}
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </TabPanel>
 
-                                <div className="col-12 mt-5">
-                                    <div className="p-4 surface-50 border-round-2xl border-1 surface-border shadow-1">
-                                        <h5 className="mb-4 font-bold"><i className="pi pi-pencil mr-2 text-primary"></i>{t('add_note')}</h5>
-                                        <div className="grid p-fluid align-items-center">
-                                            <div className="col-12 md:col-8">
-                                                <InputTextarea placeholder="..." rows={3} autoResize className="border-round-xl" />
-                                            </div>
-                                            <div className="col-12 md:col-4 flex flex-column gap-2">
-                                                <span className='text-500 text-xs font-bold uppercase'>{t('upload_label')}</span>
-                                                <FileUpload mode="basic" name="demo[]" accept="image/*" chooseLabel={t('upload_image') || 'Dosya Seç'} className="w-full" />
-                                                <Button label={t('save')} icon="pi pi-save" className="p-button-primary shadow-2" />
-                                            </div>
-                                        </div>
+                    <TabPanel header={t('goals_tab')} leftIcon="pi pi-list mr-2">
+                        <div className="grid mt-2">
+                            <div className="col-12 lg:col-4">
+                                <div className="card shadow-1 border-round-xl p-4">
+                                    <h5 className="text-primary font-bold mb-4">{t('new_goal_title')}</h5>
+                                    <div className="flex flex-column gap-3">
+                                        <InputText value={newGoal.title} onChange={(e) => setNewGoal({...newGoal, title: e.target.value})} placeholder={t('goal_title') + ' *'} />
+                                        <InputText value={newGoal.period} onChange={(e) => setNewGoal({...newGoal, period: e.target.value})} placeholder={t('period') + ' *'} />
+                                        <Dropdown value={newGoal.priority} options={[t('high'), t('medium'), t('low')]} onChange={(e) => setNewGoal({...newGoal, priority: e.value})} placeholder={t('priority')} />
+                                        <Button label={t('save')} icon="pi pi-plus" className="w-full" onClick={handleAddGoal} />
                                     </div>
-                                </div>
-                                <div className="col-12">
-                                    <SuggestionBox />
                                 </div>
                             </div>
-                        </TabPanel>
-
-                        <TabPanel header={t('goals_tab')} leftIcon="pi pi-target mr-2">
-                            <div className="grid mt-3">
-                                <div className="col-12 lg:col-4 p-3">
-                                    <div className="p-4 surface-card border-round-xl shadow-2 border-1 surface-border h-full">
-                                        <h5 className="mb-4 font-bold text-blue-600">{t('new_goal_title')}</h5>
-                                        <div className="p-fluid">
-                                            <div className="field mb-3"><label className="font-bold">{t('goal_title')} *</label><InputText placeholder="..." /></div>
-                                            <div className="field mb-3"><label className="font-bold">{t('period')} *</label><InputText placeholder="..." /></div>
-                                            <div className="field mb-4"><label className="font-bold">{t('priority')}</label><Dropdown options={priorityOptions} placeholder="..." /></div>
-                                            <Button label={t('save')} icon="pi pi-plus-circle" className="p-button-lg shadow-2" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-12 lg:col-8 p-3">
-                                    <div className="surface-card border-round-xl shadow-2 border-1 surface-border overflow-hidden h-full">
-                                        <DataTable value={goals} paginator rows={5} className="p-datatable-sm" emptyMessage={t('no_goals')}>
-                                            <Column field="title" header={t('goal_title')} sortable className="font-bold"></Column>
-                                            <Column field="period" header={t('period')}></Column>
-                                            <Column field="priority" header={t('priority')} body={priorityBodyTemplate} sortable></Column>
-                                            <Column header={t('actions')} body={() => <Button icon="pi pi-trash" className="p-button-rounded p-button-danger p-button-text" />}></Column>
-                                        </DataTable>
-                                    </div>
-                                </div>
-                                <div className="col-12 mt-4">
-                                    <SuggestionBox />
+                            <div className="col-12 lg:col-8">
+                                <div className="card shadow-1 border-round-xl p-0 overflow-hidden">
+                                    <DataTable value={goals} emptyMessage={t('no_goals')} responsiveLayout="scroll">
+                                        <Column field="title" header={t('goal_title')} sortable></Column>
+                                        <Column field="period" header={t('period')}></Column>
+                                        <Column field="priority" header={t('priority')} body={(r) => <Tag value={r.priority} severity={r.priority === t('high') ? 'danger' : 'warning'} />}></Column>
+                                        <Column header={t('actions')} body={(r) => <Button icon="pi pi-trash" text severity="danger" onClick={() => handleDeleteGoal(r.id)} />}></Column>
+                                    </DataTable>
                                 </div>
                             </div>
-                        </TabPanel>
-                    </TabView>
+                        </div>
+                    </TabPanel>
+                </TabView>
+
+                <div className="card mt-4 shadow-1 border-round-xl p-3 bg-blue-50 flex align-items-center justify-content-between">
+                    <div className="flex align-items-center gap-3">
+                        <div className="bg-primary border-round p-2 flex align-items-center justify-content-center">
+                            <i className="pi pi-bookmark-fill text-white"></i>
+                        </div>
+                        <div>
+                            <small className="block text-primary font-bold uppercase" style={{fontSize: '0.7rem'}}>{t('suggestion_title')}</small>
+                            <span className="text-sm font-medium">{getTips()[tipIndex]}</span>
+                        </div>
+                    </div>
+                    <Button icon="pi pi-refresh" className="p-button-rounded p-button-text" onClick={handleRandomTip} />
                 </div>
             </div>
         </div>

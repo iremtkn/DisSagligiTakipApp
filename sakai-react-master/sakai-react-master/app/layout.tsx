@@ -1,26 +1,28 @@
-'use client';
-import { LayoutProvider } from '../layout/context/layoutcontext';
-import { PrimeReactProvider } from 'primereact/api';
-import 'primereact/resources/primereact.css';
-import 'primeflex/primeflex.css';
+/* layout.tsx */
+import ClientProviders from '../layout/context/ClientProviders';
+
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
+import 'primeflex/primeflex.css';
+
 import '../styles/layout/layout.scss';
 import '../styles/demo/Demos.scss';
 
-interface RootLayoutProps {
-    children: React.ReactNode;
-}
+export const metadata = {
+    title: 'Dental App',
+    description: 'Dental Health App',
+    manifest: '/manifest.json',
+    themeColor: '#2196F3'
+};
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en" suppressHydrationWarning>
-            <head>
-                <link id="theme-css" href={`/themes/lara-light-indigo/theme.css`} rel="stylesheet"></link>
-            </head>
             <body>
-                <PrimeReactProvider>
-                    <LayoutProvider>{children}</LayoutProvider>
-                </PrimeReactProvider>
+                <ClientProviders>
+                    {children}
+                </ClientProviders>
             </body>
         </html>
     );

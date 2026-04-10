@@ -78,6 +78,14 @@
               "target": "Package",
               "version": "[10.0.5, )"
             },
+            "Selenium.WebDriver": {
+              "target": "Package",
+              "version": "[4.41.0, )"
+            },
+            "Selenium.WebDriver.ChromeDriver": {
+              "target": "Package",
+              "version": "[146.0.7680.16500, )"
+            },
             "Sentry.AspNetCore": {
               "target": "Package",
               "version": "[6.3.0, )"
