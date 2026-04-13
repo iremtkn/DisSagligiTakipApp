@@ -25,11 +25,30 @@ public class DailyRecordController : ControllerBase
     public IActionResult GetToday(int userId)
     {
         var record = _dailyRecordService.GetToday(userId);
+        var streak = _dailyRecordService.GetStreak(userId);
+
         if (record == null)
         {
-            return Ok(new { userId, date = DateTime.Today, brushCount = 0, flossed = false, mouthwash = false });
+            return Ok(new
+            {
+                userId,
+                date       = DateTime.Today,
+                brushCount = 0,
+                flossed    = false,
+                mouthwash  = false,
+                streak
+            });
         }
-        return Ok(record);
+
+        return Ok(new
+        {
+            record.UserId,
+            record.Date,
+            brushCount = record.BrushCount,
+            flossed    = record.Flossed,
+            mouthwash  = record.Mouthwash,
+            streak
+        });
     }
 
     [HttpPost("upsert")]
@@ -43,7 +62,18 @@ public class DailyRecordController : ControllerBase
                 request.Flossed,
                 request.Mouthwash
             );
-            return Ok(record);
+
+            var streak = _dailyRecordService.GetStreak(request.UserId);
+
+            return Ok(new
+            {
+                record.UserId,
+                record.Date,
+                brushCount = record.BrushCount,
+                flossed    = record.Flossed,
+                mouthwash  = record.Mouthwash,
+                streak
+            });
         }
         catch (Exception ex)
         {
@@ -54,8 +84,8 @@ public class DailyRecordController : ControllerBase
 
 public class UpsertDailyRecordRequest
 {
-    public int UserId { get; set; }
-    public int BrushCount { get; set; }
-    public bool Flossed { get; set; }
-    public bool Mouthwash { get; set; }
+    public int  UserId     { get; set; }
+    public int  BrushCount { get; set; }
+    public bool Flossed    { get; set; }
+    public bool Mouthwash  { get; set; }
 }

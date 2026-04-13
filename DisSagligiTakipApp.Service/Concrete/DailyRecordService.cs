@@ -17,7 +17,6 @@ public class DailyRecordService : IDailyRecordService
     public List<DailyRecord> GetLast7Days(int userId)
     {
         var sevenDaysAgo = DateTime.Today.AddDays(-6);
-
         return _context.DailyRecords
             .Where(r => r.UserId == userId && r.Date >= sevenDaysAgo)
             .OrderBy(r => r.Date)
@@ -58,6 +57,28 @@ public class DailyRecordService : IDailyRecordService
         return record;
     }
 
+    // Bugünden geriye kaç gün üst üste en az 1 eylem yapılmış
+    public int GetStreak(int userId)
+    {
+        int streak    = 0;
+        var checkDate = DateTime.Today;
+
+        while (true)
+        {
+            var exists = _context.DailyRecords.Any(r =>
+                r.UserId == userId &&
+                r.Date   == checkDate &&
+                (r.BrushCount > 0 || r.Flossed || r.Mouthwash));
+
+            if (!exists) break;
+
+            streak++;
+            checkDate = checkDate.AddDays(-1);
+        }
+
+        return streak;
+    }
+
     public async Task<DailyRecord?> GetTodayRecordAsync(int userId)
     {
         var record = await _context.DailyRecords
@@ -65,12 +86,10 @@ public class DailyRecordService : IDailyRecordService
 
         if (record == null) return null;
 
-        
         record.HealthScore = (record.BrushCount * 20)
                            + (record.Flossed   ? 20 : 0)
                            + (record.Mouthwash ? 20 : 0);
 
-        
         var sevenDaysAgo = DateTime.Today.AddDays(-6);
         var weekRecords  = await _context.DailyRecords
             .Where(r => r.UserId == userId && r.Date >= sevenDaysAgo)
@@ -84,16 +103,7 @@ public class DailyRecordService : IDailyRecordService
             })
             .ToArray();
 
-        
-        int streak    = 0;
-        var checkDate = DateTime.Today;
-        while (await _context.DailyRecords
-                   .AnyAsync(r => r.UserId == userId && r.Date == checkDate))
-        {
-            streak++;
-            checkDate = checkDate.AddDays(-1);
-        }
-        record.Streak = streak;
+        record.Streak = GetStreak(userId);
 
         return record;
     }
